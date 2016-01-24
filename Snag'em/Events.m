@@ -1,25 +1,23 @@
 //
-//  NotesTableViewController.m
+//  Events.m
 //  Snag'em
 //
-//  Created by Aidan Curtis on 12/29/15.
-//  Copyright © 2015 NCSU. All rights reserved.
+//  Created by Aidan Curtis on 1/3/16.
+//  Copyright © 2016 NCSU. All rights reserved.
 //
 
-#import "NotesTableViewController.h"
-#import "Note.h"
-#import "AddNote.h"
-@interface NotesTableViewController ()
+#import "Events.h"
+#import "Event.h"
+@interface Events ()
 
 @end
 
-@implementation NotesTableViewController
-
+@implementation Events
+@synthesize eventDictionary;
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableView.rowHeight=UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight=160;
-    NSLog(@"%@",  _hid);
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -31,9 +29,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
--(void)viewDidAppear:(BOOL)animated{
-    [self.tableView reloadData];
-}
 
 #pragma mark - Table view data source
 
@@ -44,18 +39,21 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return [[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"notes%@", _hid]] count];
+    return 20;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString * reuseIdentifier = @"Note";
-    Note *cell = (Note*)[tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
+    NSString *reuse =@"event";
+    Event *cell = (Event*)[tableView dequeueReusableCellWithIdentifier:reuse forIndexPath:indexPath];
     
     if(cell==nil){
-        cell=[[Note alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+        cell=[[Event alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuse];
     }
-    [cell.note_string setText:[[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"notes%@", _hid]] objectAtIndex:indexPath.row]];
+    [cell.title setText:[[eventDictionary objectAtIndex:indexPath.row] objectForKey:@"event"]];
+    [cell.subtitle setText:[[eventDictionary objectAtIndex:indexPath.row] objectForKey:@"time"]];
+    
+    
     return cell;
 }
 

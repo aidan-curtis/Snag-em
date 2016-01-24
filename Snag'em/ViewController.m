@@ -8,6 +8,8 @@
 
 #import "ViewController.h"
 #import "SignInViewController.h"
+#import "Register.h"
+#import "Pre_Register.h"
 @interface ViewController ()
 
 @end
@@ -53,7 +55,30 @@
     [self presentViewController:loginController animated:YES completion:nil];
 }
 
-
+- (IBAction)SignUp:(id)sender {
+    NSURLSession* task=[NSURLSession sharedSession];
+    NSString *stringURL=[NSString stringWithFormat:@"https://www.snagemgame.com/app_get_inbox.php"];
+    NSURLSessionDataTask *jsonData = [task dataTaskWithURL:[NSURL URLWithString:stringURL]
+                                         completionHandler:^(NSData *data,
+                                                             NSURLResponse *response,
+                                                             NSError *error) {
+                                             
+                                             
+                                             
+                                             dispatch_async(dispatch_get_main_queue(), ^{
+                                                 
+                                                 UIStoryboard * sb= [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                                                 Pre_Register* reg=[sb instantiateViewControllerWithIdentifier:@"Pre_Register"];
+                                                 //add codes and names below
+                                                 [self.navigationController showViewController:reg sender:nil];
+                                                 
+                                             });
+                                             
+                                             
+                                             
+                                         }];
+    [jsonData resume];
+}
 -(void)connectLogIn{
     
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
@@ -99,8 +124,7 @@
             //handle dictions with NSUSERdata
             [[NSUserDefaults standardUserDefaults] setObject:post forKey:@"Logged In"];
             for(id key in _recievedDictionary){
-                NSLog(@"%@",key);
-                NSLog(@"%@",[_recievedDictionary objectForKey:key]);
+                NSLog(@"%@ : %@",key,[_recievedDictionary objectForKey:key]);
                 [[NSUserDefaults standardUserDefaults] setObject:[_recievedDictionary objectForKey:key] forKey:[NSString stringWithFormat:@"%@",key]];
             }
             NSString *URL=[NSString stringWithFormat:@"https://snagemgame.com/images/players/%@.png", (NSString*)[[NSUserDefaults standardUserDefaults] objectForKey:@"player_IDNUM"]];

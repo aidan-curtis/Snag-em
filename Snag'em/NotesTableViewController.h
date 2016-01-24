@@ -10,4 +10,6 @@
 
 @interface NotesTableViewController : UITableViewController
 
+@property (nonatomic, weak) NSString * hid;
+
 @end

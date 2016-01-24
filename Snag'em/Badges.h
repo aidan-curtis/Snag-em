@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "iCarousel.h"
 @interface Badges : UITableViewCell
+
 @property NSArray* array_of_badges;
 @property (weak, nonatomic) IBOutlet UIImageView *image1;
 @property (weak, nonatomic) IBOutlet UIImageView *image2;
@@ -16,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *label1;
 @property (weak, nonatomic) IBOutlet UILabel *label2;
 @property (weak, nonatomic) IBOutlet UILabel *label3;
-
+@property  NSArray* images;
+@property (weak, nonatomic) IBOutlet iCarousel *carousel;
 
 @end

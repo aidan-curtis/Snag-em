@@ -21,6 +21,10 @@
 -(void)connectLogIn;
 - (IBAction)LogIn:(id)sender;
 - (IBAction)HowToPlay:(id)sender;
+- (IBAction)SignUp:(id)sender;
+
+
+
 
 @property (weak, nonatomic) IBOutlet UIView *fullBoard;
 

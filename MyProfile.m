@@ -9,6 +9,8 @@
 #import "MyProfile.h"
 #import "SWRevealViewController.h"
 #import "TableViewCell.h"
+#import "Events.h"
+#import "Inbox.h"
 @interface MyProfile (){    
     NSArray * reuseIdentifiers;
 }
@@ -20,9 +22,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    reuseIdentifiers= @[@"Avitar",@"Badges", @"Info", @"Stats", @"RecentActivity"];
+    self.tableView.rowHeight=UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight=160;
+    reuseIdentifiers= @[@"Avitar",@"Badges", @"Info", @"Info", @"Recent_Activity"];
     profileDictionary=[[NSUserDefaults standardUserDefaults] objectForKey:@"profileDictionary"];
-    
     self.navigationController.navigationBar.hidden=NO;
     self.menu.target=self.revealViewController;
     self.menu.action=@selector(revealToggle:);
@@ -91,6 +94,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section==2)return 4;
+    else if(section==3)return 6;
+    else if(section==4)return 5;
     else return 1;
 }
 
@@ -114,57 +119,66 @@
     if(indexPath.section==1){
         Badges * cell= (Badges*)[self.tableView dequeueReusableCellWithIdentifier:reuse];
         if(cell==nil) cell = [[Badges alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuse];
-        NSLog(@"%@", [NSString stringWithFormat:@"https://www.snagemgame.com/%@", [[[profileDictionary objectForKey:@"badges"] objectAtIndex:0] objectForKey:@"image"]]);
-        if([badgeImages count]!=0){
-        cell.image1.image=[UIImage imageWithData:[badgeImages objectAtIndex:0]];
-        cell.image2.image=[UIImage imageWithData:[badgeImages objectAtIndex:1]];
-        cell.image3.image=[UIImage imageWithData:[badgeImages objectAtIndex:2]];
-        cell.label1.text=[[[profileDictionary objectForKey:@"badges"] objectAtIndex:0] objectForKey:@"name"];
-        cell.label2.text=[[[profileDictionary objectForKey:@"badges"] objectAtIndex:1] objectForKey:@"name"];
-        cell.label3.text=[[[profileDictionary objectForKey:@"badges"] objectAtIndex:2] objectForKey:@"name"];
-        }
+//        NSLog(@"%@", [NSString stringWithFormat:@"https://www.snagemgame.com/%@", [[[profileDictionary objectForKey:@"badges"] objectAtIndex:0] objectForKey:@"image"]]);
+//        if([badgeImages count]!=0){
+//            cell.images = [[NSArray alloc] initWithObjects:[UIImage imageWithData:[badgeImages objectAtIndex:0]], [UIImage imageWithData:[badgeImages objectAtIndex:0]],[UIImage imageWithData:[badgeImages objectAtIndex:0]], nil];
+//            ;
+//
+//        cell.label1.text=[[[profileDictionary objectForKey:@"badges"] objectAtIndex:0] objectForKey:@"name"];
+//        cell.label2.text=[[[profileDictionary objectForKey:@"badges"] objectAtIndex:1] objectForKey:@"name"];
+//        cell.label3.text=[[[profileDictionary objectForKey:@"badges"] objectAtIndex:2] objectForKey:@"name"];
+//        }
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
     }
     if(indexPath.section==2){
         Info* cell= (Info*)[self.tableView dequeueReusableCellWithIdentifier:reuse];
         if(cell==nil) cell = [[Info alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuse];
-        if (indexPath.row==0)cell.InfoPiece.text=[NSString stringWithFormat:@"Snagem ID: %@",[profileDictionary objectForKey:@"ID"]];
-        else if(indexPath.row==1)cell.InfoPiece.text=[NSString stringWithFormat:@"Name: %@",[profileDictionary objectForKey:@"Name"]];
-        else if(indexPath.row==2)cell.InfoPiece.text=[NSString stringWithFormat:@"Email: %@",[profileDictionary objectForKey:@"Email"]];
-        else if(indexPath.row==3)cell.InfoPiece.text=[NSString stringWithFormat:@"Change Password"];
+        if (indexPath.row==0){
+            
+        cell.InfoPiece.text=[NSString stringWithFormat:@"Snagem ID: %@",[profileDictionary objectForKey:@"ID"]];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        }
+        else if(indexPath.row==1){
+            
+        cell.InfoPiece.text=[NSString stringWithFormat:@"Name: %@",[profileDictionary objectForKey:@"Name"]];
+           //[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        }
+        
+        else if(indexPath.row==2){
+            
+        cell.InfoPiece.text=[NSString stringWithFormat:@"Email: %@",[profileDictionary objectForKey:@"Email"]];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        }
+        else if(indexPath.row==3){
+        cell.InfoPiece.text=[NSString stringWithFormat:@"Change Password"];
+        //[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        }
+        
         return cell;
     }
     if(indexPath.section==3){
-        Stats * cell= (Stats*)[self.tableView dequeueReusableCellWithIdentifier:reuse];
-        if(cell==nil) cell = [[Stats alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuse];
-       
-        cell.points.text= [NSString stringWithFormat:@"Points: %@", [profileDictionary objectForKey:@"Points"]];
-        cell.rank.text= [NSString stringWithFormat:@"Rank: %@", [profileDictionary objectForKey:@"Rank"]];
-        cell.bonus.text= [NSString stringWithFormat:@"Bonus: %@", [profileDictionary objectForKey:@"Bonus"]];
-        cell.tags.text= [NSString stringWithFormat:@"Tags: %@", [profileDictionary objectForKey:@"Current_Tags"]];
-        cell.level.text= [NSString stringWithFormat:@"Game Level: %@", [profileDictionary objectForKey:@"Game_Level"]];
-        cell.team.text=[NSString stringWithFormat:@"Team: %@", [profileDictionary objectForKey:@"Team"]];
+        
+        Info * cell= (Info*)[self.tableView dequeueReusableCellWithIdentifier:reuse];
+        if(cell==nil) cell = [[Info alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuse];
+        if(indexPath.row==0)cell.InfoPiece.text= [NSString stringWithFormat:@"Points: %@", [profileDictionary objectForKey:@"Points"]];
+        if(indexPath.row==1)cell.InfoPiece.text= [NSString stringWithFormat:@"Rank: %@", [profileDictionary objectForKey:@"Rank"]];
+        if(indexPath.row==2)cell.InfoPiece.text= [NSString stringWithFormat:@"Bonus: %@", [profileDictionary objectForKey:@"Bonus"]];
+        if(indexPath.row==3)cell.InfoPiece.text= [NSString stringWithFormat:@"Tags: %@", [profileDictionary objectForKey:@"Current_Tags"]];
+        if(indexPath.row==4)cell.InfoPiece.text= [NSString stringWithFormat:@"Game Level: %@", [profileDictionary objectForKey:@"Game_Level"]];
+        if(indexPath.row==5)cell.InfoPiece.text=[NSString stringWithFormat:@"Team: %@", [profileDictionary objectForKey:@"Team"]];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
         
     }
     if(indexPath.section==4){
-        RecentActivity * cell= (RecentActivity*)[self.tableView dequeueReusableCellWithIdentifier:reuse];
-        if(cell==nil) cell = [[RecentActivity alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuse];
-        
-        cell.event1.text=[[[profileDictionary objectForKey:@"Recent_Activity"] objectAtIndex:0] objectForKey:@"event"];
-        cell.time1.text=[[[profileDictionary objectForKey:@"Recent_Activity"] objectAtIndex:0] objectForKey:@"time"];
-        
-        cell.event2.text=[[[profileDictionary objectForKey:@"Recent_Activity"] objectAtIndex:1] objectForKey:@"event"];
-        cell.time2.text=[[[profileDictionary objectForKey:@"Recent_Activity"] objectAtIndex:1] objectForKey:@"time"];
-        
-        cell.event3.text=[[[profileDictionary objectForKey:@"Recent_Activity"] objectAtIndex:2] objectForKey:@"event"];
-        cell.time3.text=[[[profileDictionary objectForKey:@"Recent_Activity"] objectAtIndex:2] objectForKey:@"time"];
-        
-        cell.event4.text=[[[profileDictionary objectForKey:@"Recent_Activity"] objectAtIndex:3] objectForKey:@"event"];
-        cell.time4.text=[[[profileDictionary objectForKey:@"Recent_Activity"] objectAtIndex:3] objectForKey:@"time"];
-        
-        cell.event5.text=[[[profileDictionary objectForKey:@"Recent_Activity"] objectAtIndex:4] objectForKey:@"event"];
-        cell.time5.text=[[[profileDictionary objectForKey:@"Recent_Activity"] objectAtIndex:4] objectForKey:@"time"];
+        Event * cell= (Event*)[self.tableView dequeueReusableCellWithIdentifier:reuse];
+        if(cell==nil) cell = [[Event alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuse];
+        cell.title.text=[[[profileDictionary objectForKey:@"Recent_Activity"] objectAtIndex:indexPath.row] objectForKey:@"event"];
+        cell.subtitle.text=[[[profileDictionary objectForKey:@"Recent_Activity"] objectAtIndex:indexPath.row] objectForKey:@"time"];
+        [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
         return cell;
     }
     else return nil;
@@ -174,12 +188,110 @@
     if(indexPath.section==0)return 91;
     else if(indexPath.section==1)return 186;
     else if(indexPath.section==2)return 61;
-    else if(indexPath.section==3) return 199;
-    else if(indexPath.section==4) return 243;
-    return 0;
+    else if(indexPath.section==3) return 61;
+    return UITableViewAutomaticDimension;
     
     
 }
+
+//iCarousel
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(indexPath.section==0){
+        NSURLSession* task=[NSURLSession sharedSession];
+        NSString *stringURL=[NSString stringWithFormat:@"https://www.snagemgame.com/app_get_inbox.php"];
+        NSURLSessionDataTask *jsonData = [task dataTaskWithURL:[NSURL URLWithString:stringURL]
+                                             completionHandler:^(NSData *data,
+                                                                 NSURLResponse *response,
+                                                                 NSError *error) {
+        
+                                                 dispatch_async(dispatch_get_main_queue(), ^{
+                                                     UIStoryboard *sb=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                                                     Inbox * e = [sb instantiateViewControllerWithIdentifier:@"Inbox"];
+                                                     e.messages=[NSJSONSerialization JSONObjectWithData:data options: kNilOptions error:nil];
+                                                     [self.navigationController showViewController:e sender:nil];
+                                                     
+                                                 });
+
+                                                 
+                                                 
+        }];
+        [jsonData resume];
+        
+    }
+    if(indexPath.section==4){
+        UIStoryboard * sb= [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        Events * e=[sb instantiateViewControllerWithIdentifier:@"Events"];
+        e.eventDictionary=[profileDictionary objectForKey:@"Recent_Activity"];
+        [self.navigationController showViewController:e sender:nil];
+        
+    }
+}
+-(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    if (section==0) return @"Avatar";
+    else if(section==1)return @"Badges";
+    else if(section==2)return @"Info";
+    else if(section==3)return @"Stats";
+    else return @"Recent Activity";
+}
+
+- (NSInteger)numberOfItemsInCarousel:(iCarousel *)carousel
+{
+    return [badgeImages count];
+}
+
+- (NSUInteger)numberOfVisibleItemsInCarousel:(iCarousel *)carousel
+{
+    //limit the number of items views loaded concurrently (for performance reasons)
+    return 7;
+}
+
+- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index
+{
+    //create a numbered view
+    UIView *view = [[UIImageView alloc] initWithImage:[UIImage imageWithData:[badgeImages objectAtIndex:index]]];
+    return view;
+}
+-(UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view{
+    UIImageView * imagething=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 130, 130)];
+    imagething.image=[UIImage imageWithData:[badgeImages objectAtIndex:index]];
+    
+    UIView* totalView= [[UIView alloc] initWithFrame: CGRectMake(0, 0, 130, 160)];
+    UILabel * description=[[UILabel alloc] initWithFrame:CGRectMake(0, 130, 130, 30)];
+    description.text=[[[profileDictionary objectForKey:@"badges"] objectAtIndex:index] objectForKey:@"name"];
+    description.textColor=[UIColor whiteColor];
+    description.textAlignment=NSTextAlignmentCenter;
+    [totalView addSubview:imagething];
+    [totalView addSubview:description];
+    return totalView;
+}
+-(UIView *)carousel:(iCarousel *)carousel placeholderViewAtIndex:(NSInteger)index reusingView:(UIView *)view{
+    return [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"messages"]];
+}
+
+- (NSInteger)numberOfPlaceholdersInCarousel:(iCarousel *)carousel
+{
+    //note: placeholder views are only displayed on some carousels if wrapping is disabled
+    return 0;
+}
+
+
+- (CGFloat)carouselItemWidth:(iCarousel *)carousel
+{
+    //usually this should be slightly wider than the item views
+    return 240;
+}
+
+- (BOOL)carouselShouldWrap:(iCarousel *)carousel
+{
+    //wrap all carousels
+    return YES;
+}
+
+- (void)carouselDidEndScrollingAnimation:(iCarousel *)aCarousel
+{
+    
+}
+
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -224,4 +336,9 @@
 }
 */
 
+- (IBAction)edit:(id)sender {
+    UIAlertView * alert =[[UIAlertView alloc] initWithTitle:@"Edit Avitar" message:@"Please go to the website version to edit your avitar" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+    [alert show];
+    
+}
 @end

@@ -1,15 +1,15 @@
 //
-//  Stats.m
+//  Inbox_Message.m
 //  Snag'em
 //
-//  Created by Aidan Curtis on 12/26/15.
-//  Copyright © 2015 NCSU. All rights reserved.
+//  Created by Aidan Curtis on 1/3/16.
+//  Copyright © 2016 NCSU. All rights reserved.
 //
 
-#import "Stats.h"
+#import "Inbox_Message.h"
 
-@implementation Stats
-@synthesize points, rank, bonus, tag, level, team;
+@implementation Inbox_Message
+
 - (void)awakeFromNib {
     // Initialization code
 }

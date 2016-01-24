@@ -107,8 +107,9 @@
             [referenceString appendString:[NSString stringWithFormat:@"&research[]=%@",[_arrayOfCodes objectAtIndex:a]]];
         }
     }
+   
+    //NSLog(@"%@", referenceString);
     NSString*referenceStringEncoded=[referenceString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-
     NSString *post2 = referenceStringEncoded;
     NSLog(@"%@", post2);
     NSData *postData2 = [post2 dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];

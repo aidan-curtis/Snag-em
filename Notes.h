@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "NotesTableViewController.h"
 @interface Notes : UIViewController
+
+@property (weak, nonatomic) IBOutlet UIView *note_container;
+@property (weak, nonatomic) NSString* hid;
+
+
+
 
 @end

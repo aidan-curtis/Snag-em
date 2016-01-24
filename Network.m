@@ -9,6 +9,7 @@
 #import "Network.h"
 #import "SWRevealViewController.h"
 #import "Network_List.h"
+#import "Notes.h"
 @interface Network ()
 @end
 @implementation Network
@@ -37,7 +38,13 @@
                                                                        objectForKey:@"image"]]]];
                                                  if(temp_data==nil)temp_data=UIImagePNGRepresentation([UIImage imageNamed:@"no_avatar.png"]);
                                                  [profileImageData addObject:temp_data];
+                                                 
+                                                 
+                                                 
+                                                 [[NSUserDefaults standardUserDefaults] setObject:[[snaggedArray objectAtIndex:a] objectForKey:@"personal_notes"] forKey:[NSString stringWithFormat:@"notes%@", [[snaggedArray objectAtIndex:a] objectForKey:@"hid"]]];
                                              }
+                                             
+                                             
                                              [[NSUserDefaults standardUserDefaults] setObject:(NSArray*)profileImageData forKey:@"profileImageData"];
                                              [[NSUserDefaults standardUserDefaults] setObject:snaggedArray forKey:@"snaggedArray"];
                                              dispatch_async(dispatch_get_main_queue(), ^{
@@ -81,5 +88,13 @@
     [cell.email setText:[NSString stringWithFormat:@"Email: %@", [[snaggedArray objectAtIndex:indexPath.row] objectForKey:@"email"]]];
     }
     return cell;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    Notes *notes = [sb instantiateViewControllerWithIdentifier:@"Notes"];
+    
+    notes.hid=[[snaggedArray objectAtIndex:indexPath.row] objectForKey:@"hid"];
+    
+    [self showViewController:notes sender:nil];
 }
 @end

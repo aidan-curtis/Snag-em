@@ -29,7 +29,7 @@
                                                              NSError *error) {
                                              
                                              
-                                             NSLog(@"anythibgadf");
+                        
                                              NSDictionary * jsondictionary=[NSJSONSerialization JSONObjectWithData:data options: kNilOptions error:nil];
                                              for( NSDictionary* dict in [jsondictionary objectForKey:@"Names"]){
                                                  for(NSString* name in dict){

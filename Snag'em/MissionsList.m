@@ -135,9 +135,17 @@
     return [NSString stringWithFormat:@"Find someone whose %@ begins with %@",[jsonData objectForKey:@"myType"], [jsonData objectForKey:@"letter"]];
 }
 -(void) viewDidLoad{
+    formattedMission=[[NSUserDefaults standardUserDefaults] objectForKey:@"formattedMission"];
+    randomMissionsArray=[[NSUserDefaults standardUserDefaults] objectForKey:@"randomMissionsArray"];
+    hobbyistMission=[[NSUserDefaults standardUserDefaults] objectForKey:@"hobbyistMission"];
+    ultimateMission=[[NSUserDefaults standardUserDefaults] objectForKey:@"ultimateMission"];
+    goldenMission=[[NSUserDefaults standardUserDefaults] objectForKey:@"goldenMission"];
+    arrayOfDifficultyStrings=[[NSUserDefaults standardUserDefaults] objectForKey:@"arrayOfDifficultyStrings"];
+    [self.tableView reloadData];
+    
+    
     formattedMission=@"Loading...";
     arrayOfDifficultyStrings=[[NSMutableArray alloc] init];
-    NSLog(@"starting missions loading");
     
     NSURLSession* task=[NSURLSession sharedSession];
     NSURLSessionDownloadTask* getNameGame=[task downloadTaskWithURL:[NSURL URLWithString:@"https://www.snagemgame.com/app_generate_name_game.php"] completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
@@ -145,6 +153,9 @@
         NSDictionary *nameMissionDict=[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:location] options:kNilOptions error:nil];
         formattedMission=[self formatMission:nameMissionDict];
         [arrayOfDifficultyStrings addObject:[NSString stringWithFormat:@"%@%@ of players have this tag", [nameMissionDict objectForKey:@"common"], @"%"]];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:formattedMission forKey:@"formattedMission"];
+
         dispatch_async(dispatch_get_main_queue(), ^{
             [table reloadData];
         });
@@ -184,6 +195,14 @@
         
         //ultimate mission difficulty
         [arrayOfDifficultyStrings addObject:@""];
+        
+        
+        [[NSUserDefaults standardUserDefaults] setObject:randomMissionsArray forKey:@"formattedMission"];
+        [[NSUserDefaults standardUserDefaults] setObject:hobbyistMission forKey:@"hobbyistMission"];
+        [[NSUserDefaults standardUserDefaults] setObject:ultimateMission forKey:@"ultimateMission"];
+        [[NSUserDefaults standardUserDefaults] setObject:goldenMission forKey:@"goldenMission"];
+        [[NSUserDefaults standardUserDefaults] setObject:arrayOfDifficultyStrings forKey:@"arrayOfDifficultyStrings"];
+        
         
         
         //reload table data

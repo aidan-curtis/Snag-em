@@ -29,10 +29,12 @@
 @property NSString* filePath;
 @property NSArray* array_of_positions;
 @property NSArray* array_of_locations;
-@property NSArray* array_of_location_codes;
-@property NSArray* array_of_school_codes;
+@property NSArray* array_of_versions;
 @property NSArray* array_of_position_codes;
-@property NSArray* vCode;
+@property NSArray* array_of_location_codes;
+@property NSArray* array_of_version_codes;
+
+
 @property NSString* UID;
 @property NSString* fnameEncoded;
 @end

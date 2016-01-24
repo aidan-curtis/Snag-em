@@ -9,15 +9,13 @@
 #import "Badges.h"
 
 @implementation Badges
-@synthesize image1, image2, image3, label1, label2, label3;
+@synthesize image1, image2, image3, label1, label2, label3, images, carousel;
 - (void)awakeFromNib {
+    self.selectionStyle=
+    carousel.type = iCarouselTypeCoverFlow;
 
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
-}
 
 @end

@@ -45,10 +45,21 @@
 
                 NSLog(@"%@", thedata);
                 
-                if([thedata isEqualToString:@"CHEATER"]){
+                if([thedata containsString:@"CHEATER"]){
                     self.actiongood.backgroundColor=[UIColor redColor];
                     self.image_holder.image=[UIImage imageNamed:@"filthyFace"];
                 }
+                else{
+                    NSDictionary* points_dict=[NSJSONSerialization JSONObjectWithData:data options: kNilOptions error:nil];
+                    NSString* number = [points_dict objectForKey:@"victoryPoints"];
+                    NSLog(@"%@", number);
+                    if([number integerValue]<=0){
+                        self.actiongood.backgroundColor=[UIColor redColor];
+                        self.image_holder.image=[UIImage imageNamed:@"filthyFace"];
+                        
+                    }
+                }
+
                 self.actiongood.hidden=NO;
             });
             
